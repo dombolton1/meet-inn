@@ -23,7 +23,10 @@ function Map() {
         defaultCenter={defaultProps.centre}
         defaultZoom={defaultProps.zoom}
         center={defaultProps.centre}
+        onChange={(event) => {
+          console.log(event);
 
+        }}
       >
         <Typography
           lat={0}
