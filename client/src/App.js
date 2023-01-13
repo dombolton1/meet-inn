@@ -10,13 +10,33 @@ import Map from './components/Map/Map';
 import { getPlaceByRadius } from './services/api'
 
 function App() {
-  const [centre, setCentre] = useState({lat: 0, lng: 0});
+  const [centre, setCentre] = useState({});
   const [places, setPlaces] = useState([]);
+  const [list, setList] = useState([]);
 
-  // getPlaceByRadius('51.575802328718375,0.18283138525078574').then((data) => {
-  //   console.log(data);
+  console.log(centre)
+  // useEffect((() => {
+    //   getPlaceByRadius('51.575802328718375,0.18283138525078574')
+    //     .then((data) => {
+      //       // console.log(data);
+  //       setPlaces(data.data.results);
+  //     })
+  // }), [centre]);
 
-  // })
+  useEffect((() => {
+    getPlaceByRadius(`${centre.lat},${centre.lng}`)
+    .then((data) => {
+      // console.log(data);
+      setPlaces(data.data.results);
+    })
+  }), [centre]);
+
+  //list will first try to setList[data from db]
+  //for now, just use locally
+
+  useEffect((() => {
+
+  }))
 
   return (
     <>
@@ -30,10 +50,15 @@ function App() {
           />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Places />
+          <Places
+            places={places}
+            list={list}
+          />
         </Grid>
       </Grid>
-      <Footer />
+      <Footer
+        list={list}
+      />
     </>
   );
 }

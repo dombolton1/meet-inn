@@ -17,7 +17,7 @@ app.get('/', async (req, res) => {
 app.get('/:location', (req, res) => {
   fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='
     + req.params.location
-    + '&radius=1500&type=bar&key=AIzaSyAotUjPUft8ESH3BvLpb-7vK04YUJV90zQ')
+    + '&radius=1500&type=bar&key=AIzaSyD2puGPtJBCXGtB1QgL7Fhh_VMALg_InmY')
       .then((response) => response.json())
       .then((response) => {
         res.header("Access-Control-Allow-Origin", "http://localhost:3000");
