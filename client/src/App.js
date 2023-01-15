@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Grid, Toolbar, AppBar, Typography } from '@material-ui/core';
+import { Grid, Toolbar, AppBar, Typography, Box, CssBaseline } from '@material-ui/core';
 
 import Banner from './components/Banner/Banner';
 import Footer from './components/Footer/Footer';
@@ -14,14 +14,36 @@ function App() {
   const [places, setPlaces] = useState([]);
   const [list, setList] = useState([]);
 
-  console.log(centre)
-  // useEffect((() => {
-    //   getPlaceByRadius('51.575802328718375,0.18283138525078574')
-    //     .then((data) => {
-      //       // console.log(data);
-  //       setPlaces(data.data.results);
-  //     })
-  // }), [centre]);
+  function addToList (item) {
+    if (!list.some(e => e.name === item.name)) setList([...list, item]);
+  }
+
+  function isOnList (item) {
+    return (list.some(e => e.name === item.name))
+  }
+
+  function removeFromList (item) {
+    let index = list.findIndex((listItem) => listItem.name === item.name);
+    // console.log(index)
+
+    // list.splice(index, 1);
+    // console.log(list);
+    // setList(list)
+    const newList = [...list];
+    newList.splice(index, 1);
+    setList(newList)
+  }
+
+  function saveList (currentList) {
+    const data = JSON.stringify(currentList);
+
+    fetch('http://localhost:3001/list', {
+      method: 'PUT',
+      body: data,
+      headers: { 'Content-Type': 'application/json'}
+    })
+  }
+
 
   useEffect((() => {
     getPlaceByRadius(`${centre.lat},${centre.lng}`)
@@ -34,12 +56,14 @@ function App() {
   //list will first try to setList[data from db]
   //for now, just use locally
 
-  useEffect((() => {
+  // useEffect((() => {
+  //   setList(list)
+  // }), [list])
 
-  }))
 
   return (
     <>
+    <CssBaseline/>
       <Banner />
       <Grid container spacing={2} style={{ width: '100%' }}>
         <Grid item xs={12} md={8}>
@@ -53,11 +77,16 @@ function App() {
           <Places
             places={places}
             list={list}
+            addToList={addToList}
+            isOnList={isOnList}
+            removeFromList={removeFromList}
           />
         </Grid>
       </Grid>
       <Footer
         list={list}
+        removeFromList={removeFromList}
+        saveList={saveList}
       />
     </>
   );

@@ -23,50 +23,35 @@
 
 // export default Places;
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, IconButton, Paper, ListItemAvatar, Avatar } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+// import ListItemButton from '@material-ui/core/ListItemButton';
 import Divider from '@material-ui/core/Divider';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import LocalBarIcon from '@material-ui/icons/LocalBar';
+// import Rating from '@material-ui/lab/Rating';
+
 
 import useStyles from './styles';
 
 
-function Places({ places, list }) {
+function Places({ places, addToList, isOnList, removeFromList }) {
   const classes = useStyles();
 
-  const mockData = [1,2,3,4,5,6]
-
   return (
-    // <>
-    //   {places?.map((place, i) =>
-    //     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', }}>
-    //       <ListItem alignItems="flex-start">
-    //         <ListItemText
-    //           primary={place.name}
-    //           secondary={
-    //             <>
-    //               <Typography
-    //                 sx={{ display: 'inline' }}
-    //                 component="span"
-    //                 variant="body2"
-    //                 color="text.primary"
-    //               >
-    //                 Ali Connors
-    //               </Typography>
-    //               {" — I'll be in your neighborhood doing errands this…"}
-    //             </>
-    //           }
-    //         />
-    //       </ListItem>
-    //       <Divider variant="inset" component="li" />
-    //     </List>
-    //   )}
-    // </>
+
+    <Paper style={{ maxHeight: '70vh', overflow: 'auto'}}>
+
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         {places?.map((place, i) =>
           <>
           <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place?.photos[0]?.photo_reference}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`} />
+            </ListItemAvatar>
             <ListItemText
               primary={place.name}
               secondary={
@@ -77,17 +62,39 @@ function Places({ places, list }) {
                     variant="body2"
                     color="text.primary"
                   >
-                    Yo
+                    {place.rating}
                   </Typography>
-                  {" — I'll be in your neighborhood doing errands this…"}
                 </>
               }
             />
+            {!isOnList(place) ?
+
+              <IconButton
+
+                onClick={() => {
+                  addToList({name: place.name, photo: place.photos[0].photo_reference, rating: place.rating, coordinates: `${place.geometry.location.lat},${place.geometry.location.lng}`})
+                  console.log(place)
+                }}
+              >
+                <AddIcon style={{color: '#99b27f'}}/>
+                <LocalBarIcon />
+              </IconButton> :
+              <IconButton
+                onClick={() => {
+                  console.log('test')
+                  removeFromList({name: place.name})
+                }}
+              >
+
+                <RemoveCircleIcon />
+              </IconButton>
+            }
           </ListItem>
-            <Divider variant="inset" component="li" />
+          <Divider variant="inset" component="li" />
           </>
         )}
       </List>
+    </Paper>
   )
 }
 
