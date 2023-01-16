@@ -27,7 +27,6 @@ function Places({ places, addToList, isOnList, removeFromList }) {
           <>
           <ListItem alignItems="flex-start">
             <ListItemAvatar>
-              {/* <Avatar src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place?.photos[0]?.photo_reference}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`} /> */}
               <Avatar src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place?.photos[0]?.photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`} />
             </ListItemAvatar>
             <ListItemText

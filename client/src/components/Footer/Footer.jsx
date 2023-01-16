@@ -41,8 +41,6 @@ function Footer({ list, removeFromList, saveList }) {
         <CardMedia
           sx={{ height: 140 }}
           image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.photo}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
-          // image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.photo}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`}
-          title="green iguana"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

@@ -4,7 +4,7 @@ const cors = require('cors');
 
 // installed dotenv
 require('dotenv').config()
-console.log(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)
+// console.log(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.get('/', async (req, res) => {
 app.get('/places/:location', (req, res) => {
   fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='
     + req.params.location
-    + `&radius=1500&type=bar&key=AIzaSyD2puGPtJBCXGtB1QgL7Fhh_VMALg_InmY`)
+    + `&radius=1500&type=bar&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`)
       .then((response) => response.json())
       .then((response) => {
         res.header("Access-Control-Allow-Origin", "http://localhost:3000");

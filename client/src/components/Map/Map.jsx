@@ -52,7 +52,6 @@ function Map({ centre, setCentre, places }) {
     <div className={classes.container}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
-        // bootstrapURLKeys={{ key: 'AIzaSyD2puGPtJBCXGtB1QgL7Fhh_VMALg_InmY' }}
         defaultCenter={defaultProps.centre}
         defaultZoom={defaultProps.zoom}
         center={defaultProps.centre}
@@ -83,7 +82,6 @@ function Map({ centre, setCentre, places }) {
                   style={{ height: '60px'}}
                   component="img"
                   height="140"
-                  // image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${selectedPlace?.photos[0]?.photo_reference}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`}
                   image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${selectedPlace?.photos[0]?.photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
                 />
                 <CardContent
