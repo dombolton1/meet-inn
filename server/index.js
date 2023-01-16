@@ -13,14 +13,14 @@ app.use(express.json());
 
 const { List } = require('./schema');
 
-//TODO: schema
 
 app.get('/', async (req, res) => {
   return res.json({message: 'Server home.'})
 });
 
+
 //GET for places within 1500m of location
-app.get('/:location', (req, res) => {
+app.get('/places/:location', (req, res) => {
   fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='
     + req.params.location
     + `&radius=1500&type=bar&key=AIzaSyD2puGPtJBCXGtB1QgL7Fhh_VMALg_InmY`)
@@ -33,10 +33,17 @@ app.get('/:location', (req, res) => {
 
 //TODO: POST & GET endpoints for crawl list
 
+app.get('/list', async (req, res) => {
+  const savedList = await List.find();
+  return res.status(200).json(savedList);
+});
+
 app.put('/list', async (req, res) => {
   try {
-    List.deleteMany({});
-    const newList= new List(req.body);
+    List.deleteMany([]);
+    // console.log('body, ',req.body)
+    const newList= new List({list: req.body});
+    // console.log(newList)
     const insertedList = await newList.save();
 
     return res.status(201).json(insertedList);
@@ -45,32 +52,37 @@ app.put('/list', async (req, res) => {
   }
 })
 
-app.get('/list', async (req, res) => {
-  const list = await List.find();
 
-  return res.status(200).json(list);
-})
+
+// app.get('/list', async (req, res) => {
+//   // const list = await List.find();
+
+//   // return res.status(200).json(list);
+//   return res.json({message: 'Server home.'})
+// })
 
 
 const PORT = 3001;
-// const DB = 'meetinntest'
+const DB = 'meetinntest'
 
 //TODO: start mongoose database with express server
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`)
-})
+// app.listen(PORT, () => {
+//   console.log(`Server running at http://localhost:${PORT}`)
+// })
 
-// const start = async () => {
-//   try {
-//     await mongoose.connect(
-//       `mongodb://localhost:27017/${DB}`, { useNewUrlParser: true, useUnifiedTopology: true }
-//     );
-//     app.listen(PORT, () => {
-//       console.log(`Server running: http://localhost:${PORT}/`)
-//     })
-//   } catch (error) {
-//     console.error(error);
-//     process.exit(1);
-//   }
-// }
+const start = async () => {
+  try {
+    await mongoose.connect(
+      `mongodb://localhost:27017/${DB}`, { useNewUrlParser: true, useUnifiedTopology: true }
+    );
+    app.listen(PORT, () => {
+      console.log(`Server running: http://localhost:${PORT}`)
+    })
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+}
+
+start();

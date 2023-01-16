@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     height: 100,
   },
 });
-function Footer({ list, removeFromList }) {
+function Footer({ list, removeFromList, saveList }) {
 
 
   const classes = useStyles();
@@ -29,72 +29,6 @@ function Footer({ list, removeFromList }) {
   };
 
   return(
-    // <Grid container direction='row'>
-    //   <Grid item xs={6}>
-    //     <h1>Crawl list to go here</h1>
-    //   </Grid>
-    //   <Grid item xs={6}>
-    //     <h1>Finalize button to go here</h1>
-    //   </Grid>
-    // </Grid>
-
-    // <>
-
-    // {list?.map((item) =>
-    //   <Card className={classes.root}>
-    //   <CardActionArea>
-    //     <CardMedia
-    //       className={classes.media}
-    //       image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item?.photo}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`}
-    //       title="Contemplative Reptile"
-    //     />
-    //     <CardContent>
-    //       <Typography variant="subtitle2" component="h2">
-    //         {item.name}
-    //       </Typography>
-    //     </CardContent>
-    //   </CardActionArea>
-    //   <CardActions>
-    //     <Button size="small" color="primary">
-    //       Share
-    //     </Button>
-    //     <Button size="small" color="primary">
-    //       Learn More
-    //     </Button>
-    //   </CardActions>
-    // </Card>
-    // )}
-    // </>
-
-  //   <Paper style={{ maxHeight: '70vh', overflow: 'auto'}}>
-
-  //   <List style={flexContainer} sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-  //     {list?.map((place, i) =>
-  //       <>
-  //       <ListItem alignItems="flex-start">
-  //         <ListItemText
-  //           primary={place.name}
-  //           secondary={
-  //             <>
-  //               <Typography
-  //                 sx={{ display: 'inline' }}
-  //                 component="span"
-  //                 variant="body2"
-  //                 color="text.primary"
-  //               >
-  //                 Yo
-  //               </Typography>
-  //               {" — I'll be in your neighborhood doing errands this…"}
-  //             </>
-  //           }
-  //         />
-
-  //       </ListItem>
-  //       <Divider variant="inset" component="li" />
-  //       </>
-  //     )}
-  //   </List>
-  // </Paper>
 
 <div>
     <Grid container style={{height: '20vh'}}>
@@ -106,7 +40,8 @@ function Footer({ list, removeFromList }) {
               <Card sx={{ maxWidth: 0}}>
         <CardMedia
           sx={{ height: 140 }}
-          image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.photo}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`}
+          image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.photo}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+          // image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.photo}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`}
           title="green iguana"
         />
         <CardContent>
@@ -196,11 +131,12 @@ function Footer({ list, removeFromList }) {
       <Button
             size="small"
             onClick={() => {
-              removeFromList({name: item.name})
+              console.log('testing button')
               console.log(list)
+              saveList(list)
             }}
           >
-            Remove from List
+            Save List
           </Button>
 
       </Grid>

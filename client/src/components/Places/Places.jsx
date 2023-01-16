@@ -1,27 +1,4 @@
-// import { Grid } from '@material-ui/core'
 
-// import useStyles from './styles'
-
-
-// function Places() {
-//   const classes = useStyles();
-
-//   const mockData = [1,2,3,4,5,6]
-
-//   return (
-//     <div className={classes.container}>
-//       <Grid container>
-//         {mockData?.map((number) => (
-//           <Grid item xs={12}>
-//             {number}
-//           </Grid>
-//         ))}
-//       </Grid>
-//     </div>
-//   )
-// }
-
-// export default Places;
 
 import { Grid, Typography, IconButton, Paper, ListItemAvatar, Avatar } from '@material-ui/core';
 import List from '@material-ui/core/List';
@@ -50,7 +27,8 @@ function Places({ places, addToList, isOnList, removeFromList }) {
           <>
           <ListItem alignItems="flex-start">
             <ListItemAvatar>
-              <Avatar src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place?.photos[0]?.photo_reference}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`} />
+              {/* <Avatar src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place?.photos[0]?.photo_reference}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`} /> */}
+              <Avatar src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place?.photos[0]?.photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`} />
             </ListItemAvatar>
             <ListItemText
               primary={place.name}

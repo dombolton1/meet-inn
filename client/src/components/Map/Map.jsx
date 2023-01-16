@@ -51,7 +51,8 @@ function Map({ centre, setCentre, places }) {
   return (
     <div className={classes.container}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyD2puGPtJBCXGtB1QgL7Fhh_VMALg_InmY' }}
+        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
+        // bootstrapURLKeys={{ key: 'AIzaSyD2puGPtJBCXGtB1QgL7Fhh_VMALg_InmY' }}
         defaultCenter={defaultProps.centre}
         defaultZoom={defaultProps.zoom}
         center={defaultProps.centre}
@@ -82,7 +83,8 @@ function Map({ centre, setCentre, places }) {
                   style={{ height: '60px'}}
                   component="img"
                   height="140"
-                  image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${selectedPlace?.photos[0]?.photo_reference}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`}
+                  // image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${selectedPlace?.photos[0]?.photo_reference}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`}
+                  image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${selectedPlace?.photos[0]?.photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
                 />
                 <CardContent
                   style={{ height: '20px'}}
@@ -103,25 +105,3 @@ function Map({ centre, setCentre, places }) {
 }
 
 export default Map;
-
-
-
-{/*
-        {places?.map((place, i) =>
-            <Card lat={place.geometry.location.lat} lng={place.geometry.location.lng} style={{display: 'inline-block', width:'100px'}} sx={{ maxWidth: 40 }}>
-            <CardMedia
-              style={{ height: '60px'}}
-              component="img"
-              height="140"
-              image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photo_reference}&key=AIzaSyDSIQ1d7mi0UkmqcOVJICPOh43Oa-i1byc`}
-            />
-            <CardContent
-              style={{ height: '20px'}}
-            >
-              <Typography variant="subtitle2" component="div">
-                {place.name}
-              </Typography>
-            </CardContent>
-
-          </Card>
-        )} */}

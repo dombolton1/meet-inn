@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Grid, Toolbar, AppBar, Typography, Box, CssBaseline } from '@material-ui/core';
+import { Grid, CssBaseline } from '@material-ui/core';
 
 import Banner from './components/Banner/Banner';
 import Footer from './components/Footer/Footer';
@@ -8,6 +8,9 @@ import Places from './components/Places/Places';
 import Map from './components/Map/Map';
 
 import { getPlaceByRadius } from './services/api'
+
+// require('dotenv').config()
+
 
 function App() {
   const [centre, setCentre] = useState({});
@@ -24,14 +27,10 @@ function App() {
 
   function removeFromList (item) {
     let index = list.findIndex((listItem) => listItem.name === item.name);
-    // console.log(index)
 
-    // list.splice(index, 1);
-    // console.log(list);
-    // setList(list)
     const newList = [...list];
     newList.splice(index, 1);
-    setList(newList)
+    setList(newList);
   }
 
   function saveList (currentList) {
@@ -56,14 +55,9 @@ function App() {
   //list will first try to setList[data from db]
   //for now, just use locally
 
-  // useEffect((() => {
-  //   setList(list)
-  // }), [list])
-
-
   return (
     <>
-    <CssBaseline/>
+      <CssBaseline/>
       <Banner />
       <Grid container spacing={2} style={{ width: '100%' }}>
         <Grid item xs={12} md={8}>
