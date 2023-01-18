@@ -25,8 +25,6 @@ function Map({ centre, setCentre, places, list, isOnList }) {
     },
     zoom: 15
   }
-  // console.log(places.data.results[0].geometry.location)
-  console.log(places)
 
   const [open, setOpen] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(places[0]);
@@ -61,7 +59,6 @@ function Map({ centre, setCentre, places, list, isOnList }) {
         defaultZoom={defaultProps.zoom}
         center={defaultProps.centre}
         onChange={(event) => {
-          // console.log(event.center);
           setCentre(event.center)
         }}
       >
@@ -97,7 +94,6 @@ function Map({ centre, setCentre, places, list, isOnList }) {
                 <CardMedia
                   style={{ height: '110px'}}
                   component="img"
-                  // height="200"
                   image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${selectedPlace?.photos[0]?.photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
                 />
                 <CardContent

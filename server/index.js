@@ -2,9 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// installed dotenv
 require('dotenv').config()
-// console.log(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)
 
 const app = express();
 
@@ -31,13 +29,10 @@ app.get('/places/:location', (req, res) => {
       });
 })
 
-//TODO: POST & GET endpoints for crawl list
 
 app.get('/list', async (req, res) => {
   const savedList = await List.find();
-  // return res.status(200).json(savedList[0].list);
   return res.status(200).json(savedList);
-  // else return res.status(200).json([])
 });
 
 app.delete('/list', async (req, res) => {
@@ -50,9 +45,7 @@ app.delete('/list', async (req, res) => {
 app.put('/list', async (req, res) => {
   try {
     List.deleteMany([]);
-    // console.log('body, ',req.body)
     const newList= new List({list: req.body});
-    // console.log(newList)
     const insertedList = await newList.save();
 
     return res.status(201).json(insertedList);
@@ -63,22 +56,10 @@ app.put('/list', async (req, res) => {
 
 
 
-// app.get('/list', async (req, res) => {
-//   // const list = await List.find();
-
-//   // return res.status(200).json(list);
-//   return res.json({message: 'Server home.'})
-// })
-
 
 const PORT = 3001;
 const DB = 'meetinntest'
 
-//TODO: start mongoose database with express server
-
-// app.listen(PORT, () => {
-//   console.log(`Server running at http://localhost:${PORT}`)
-// })
 
 const start = async () => {
   try {

@@ -4,7 +4,6 @@ import { Grid, Typography, IconButton, Paper, ListItemAvatar, Avatar } from '@ma
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-// import ListItemButton from '@material-ui/core/ListItemButton';
 import Divider from '@material-ui/core/Divider';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
@@ -30,7 +29,6 @@ function Places({ places, addToList, isOnList, removeFromList }) {
               <Avatar style={{height: '70px', width: '70px'}} src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place?.photos?.[0]?.photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`} />
             </ListItemAvatar>
             <ListItemText
-              // primary={place.name}
               primary={
                 <Typography variant='h6'>
                   {place.name}

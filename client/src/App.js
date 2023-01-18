@@ -84,9 +84,6 @@ function App() {
     })
   }), [centre]);
 
-  //list will first try to setList[data from db]
-  //for now, just use locally
-
   return (
     <Router>
 
