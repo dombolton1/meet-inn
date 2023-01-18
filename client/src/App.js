@@ -6,11 +6,11 @@ import Banner from './components/Banner/Banner';
 import Footer from './components/Footer/Footer';
 import Places from './components/Places/Places';
 import Map from './components/Map/Map';
+import Listpage from './components/Listpage/Listpage';
 
 import { getPlaceByRadius } from './services/api'
 
-// require('dotenv').config()
-
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
   const [centre, setCentre] = useState({});
@@ -37,17 +37,49 @@ function App() {
     const data = JSON.stringify(currentList);
 
     fetch('http://localhost:3001/list', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json'}
+    })
+
+    fetch('http://localhost:3001/list', {
       method: 'PUT',
       body: data,
       headers: { 'Content-Type': 'application/json'}
     })
   }
 
+  const getSavedList = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/list');
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error: ${response.status}`
+        )
+      }
+      let data = await response.json();
+      if(data.length > 0) setList(data[0].list)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getSavedList()
+  }, [])
+
+  function deleteList () {
+    fetch('http://localhost:3001/list', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json'}
+    })
+    setList([])
+  }
+
 
   useEffect((() => {
     getPlaceByRadius(`${centre.lat},${centre.lng}`)
     .then((data) => {
-      // console.log(data);
+      console.log(data);
       setPlaces(data.data.results);
     })
   }), [centre]);
@@ -56,33 +88,49 @@ function App() {
   //for now, just use locally
 
   return (
+    <Router>
+
     <>
       <CssBaseline/>
       <Banner />
-      <Grid container spacing={2} style={{ width: '100%' }}>
-        <Grid item xs={12} md={8}>
-          <Map
-            centre={centre}
-            setCentre={setCentre}
-            places={places}
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Places
-            places={places}
+      <Switch>
+        <Route exact path='/'>
+          <Grid container spacing={2} style={{ width: '100%' }}>
+            <Grid item xs={12} md={8}>
+              <Map
+                centre={centre}
+                setCentre={setCentre}
+                places={places}
+                list={list}
+                isOnList={isOnList}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Places
+                places={places}
+                list={list}
+                addToList={addToList}
+                isOnList={isOnList}
+                removeFromList={removeFromList}
+              />
+            </Grid>
+          </Grid>
+          <Footer
             list={list}
-            addToList={addToList}
-            isOnList={isOnList}
+            removeFromList={removeFromList}
+            saveList={saveList}
+            deleteList={deleteList}
+          />
+        </Route>
+        <Route path='/list'>
+          <Listpage
+            list={list}
             removeFromList={removeFromList}
           />
-        </Grid>
-      </Grid>
-      <Footer
-        list={list}
-        removeFromList={removeFromList}
-        saveList={saveList}
-      />
+        </Route>
+      </Switch>
     </>
+    </Router>
   );
 }
 

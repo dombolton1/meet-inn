@@ -5,6 +5,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import LocalBarIcon from '@material-ui/icons/LocalBar';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 
 
@@ -14,7 +15,7 @@ import { useState } from 'react';
 import useStyles from './styles'
 
 
-function Map({ centre, setCentre, places }) {
+function Map({ centre, setCentre, places, list, isOnList }) {
   const classes = useStyles();
 
   const defaultProps = {
@@ -24,9 +25,8 @@ function Map({ centre, setCentre, places }) {
     },
     zoom: 15
   }
-  // console.log(places[0].photos[0].photo_reference)
   // console.log(places.data.results[0].geometry.location)
-  //TODO: Add key to ENV file
+  console.log(places)
 
   const [open, setOpen] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(places[0]);
@@ -47,6 +47,11 @@ function Map({ centre, setCentre, places }) {
     p: 4,
   };
 
+  function splitCoords(coords, direction) {
+    const split = coords.split(',');
+    if (direction === 'lat') return Number(split[0]);
+    if (direction === 'lng') return Number(split[1]);
+  }
 
   return (
     <div className={classes.container}>
@@ -60,16 +65,27 @@ function Map({ centre, setCentre, places }) {
           setCentre(event.center)
         }}
       >
+        {list?.map((place, i) =>
+          <div lat={splitCoords(place.coordinates, 'lat')} lng={splitCoords(place.coordinates, 'lng')}>
+            <IconButton style={{color: 'black', border: 'solid', color: 'green', background: 'white', opacity: '0.8'}} >
+              <CheckCircleIcon />
+            </IconButton>
+          </div>
+        )}
         {places?.map((place, i) =>
           <div lat={place.geometry.location.lat} lng={place.geometry.location.lng}>
-
-          <IconButton style={{color: 'black', border: 'solid', background:'#99b27f', opacity: '0.5'}} onClick={() => handleOpen(place)}>
-            <LocalBarIcon />
-          </IconButton>
+            {isOnList(place) ?
+              <IconButton style={{color: 'black', border: 'solid', color: 'green', background: 'white', opacity: '0.8'}} onClick={() => handleOpen(place)}>
+              <CheckCircleIcon />
+            </IconButton> :
+              <IconButton style={{color: 'black', border: 'solid',  opacity: '0.5'}} onClick={() => handleOpen(place)}>
+                <LocalBarIcon />
+              </IconButton>
+            }
 
         </div>
         )}
-<Modal
+          <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
@@ -79,15 +95,15 @@ function Map({ centre, setCentre, places }) {
 
               <Card  sx={style} >
                 <CardMedia
-                  style={{ height: '60px'}}
+                  style={{ height: '110px'}}
                   component="img"
-                  height="140"
+                  // height="200"
                   image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${selectedPlace?.photos[0]?.photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
                 />
                 <CardContent
                   style={{ height: '20px'}}
                 >
-                  <Typography variant="subtitle2" component="div">
+                  <Typography gutterBottom variant="h6" component="div">
                     {selectedPlace?.name}
                   </Typography>
                 </CardContent>

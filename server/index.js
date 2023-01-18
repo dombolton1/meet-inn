@@ -35,8 +35,17 @@ app.get('/places/:location', (req, res) => {
 
 app.get('/list', async (req, res) => {
   const savedList = await List.find();
+  // return res.status(200).json(savedList[0].list);
   return res.status(200).json(savedList);
+  // else return res.status(200).json([])
 });
+
+app.delete('/list', async (req, res) => {
+  List.deleteMany({}, (err) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send('All data cleared');
+  })
+})
 
 app.put('/list', async (req, res) => {
   try {
